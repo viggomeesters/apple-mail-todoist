@@ -1,0 +1,48 @@
+{
+  "schema": "go-workflow.repo-local.hierarchy.v1",
+  "kind": "hierarchy",
+  "project": "apple-mail-todoist",
+  "epics": [
+    {
+      "id": "product",
+      "title": "Direct Apple Mail to Todoist capture",
+      "features": [
+        {
+          "id": "capture",
+          "title": "Create one idempotent Todoist task from a selected mail",
+          "tasks": [
+            "T001-contracts",
+            "T002-mail-link",
+            "T003-mail-selection",
+            "T005-todoist-api",
+            "T007-capture-service"
+          ]
+        }
+      ],
+      "tasks": []
+    },
+    {
+      "id": "quality",
+      "title": "Trust, packaging, and operator experience",
+      "features": [
+        {
+          "id": "safety",
+          "title": "Protect credentials and private mail data",
+          "tasks": [
+            "T004-keychain",
+            "T006-reconciliation"
+          ]
+        },
+        {
+          "id": "distribution",
+          "title": "Package and document the Raycast workflow",
+          "tasks": [
+            "T008-raycast-ux",
+            "T009-live-proof"
+          ]
+        }
+      ],
+      "tasks": []
+    }
+  ]
+}

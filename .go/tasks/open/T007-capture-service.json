@@ -1,0 +1,42 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T007-capture-service",
+  "project": "apple-mail-todoist",
+  "status": "open",
+  "summary": "Orchestrate one deterministic mail-to-task capture",
+  "description": "Prerequisites: T003-mail-selection, T005-todoist-api, and T006-reconciliation. Compose the fixed Inbox task and coordinate Mail, Keychain, Todoist, reconciliation, and typed outcome ports without live dependencies in tests.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/",
+      "docs/vision.json"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/task_builder.py",
+      "src/apple_mail_todoist/service.py",
+      "src/apple_mail_todoist/cli.py",
+      "pyproject.toml",
+      "tests/test_task_builder.py",
+      "tests/test_service.py",
+      "tests/test_cli.py"
+    ]
+  },
+  "acceptance": [
+    "One selected mail produces a Reply to title, sender/date/deep-link description, mail label, no project override, and no inferred scheduling fields.",
+    "Confirmed, existing, safe failure, and reconciliation-needed outcomes are distinct and no failure path mutates Mail or duplicates Todoist work."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_task_builder.py tests/test_service.py tests/test_cli.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": null,
+    "claimed_at": null
+  },
+  "work_status": "pending",
+  "review_status": "none",
+  "review_history": [],
+  "evidence": []
+}

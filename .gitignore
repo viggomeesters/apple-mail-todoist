@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+.venv/
+
+# Editors and macOS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.mobileprovision
+secrets/
+credentials/
+
+# Mail and private user data
+*.eml
+*.mbox
+*.maildir/
+mail-data/
+private-data/
+
+# Generated runtime state
+*.sqlite
+*.sqlite3
+*.db
+*.log
+runtime/
+state/
+receipts/
+reconciliation/
+.apple-mail-todoist/
+
+# Local Go Workflow runtime files
+.go/locks/
+.go/runs/*.lock

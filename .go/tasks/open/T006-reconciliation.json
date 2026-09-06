@@ -1,0 +1,38 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T006-reconciliation",
+  "project": "apple-mail-todoist",
+  "status": "open",
+  "summary": "Persist minimal duplicate-protection and reconciliation state",
+  "description": "Prerequisites: T001-contracts and T005-todoist-api. Implement a user-only local store for hashed source identity, stable request UUID, delivery state, timestamps, and confirmed Todoist task ID.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/domain.py",
+      "src/apple_mail_todoist/todoist.py",
+      "docs/architecture.md"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/reconciliation.py",
+      "tests/test_reconciliation.py"
+    ]
+  },
+  "acceptance": [
+    "The store contains no subject, sender, body, token, description, or raw API payload and uses restrictive file permissions.",
+    "Crash, confirmed replay, uncertain delivery, corruption, and concurrent invocation tests prevent a second POST until reconciliation permits it."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_reconciliation.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": null,
+    "claimed_at": null
+  },
+  "work_status": "pending",
+  "review_status": "none",
+  "review_history": [],
+  "evidence": []
+}

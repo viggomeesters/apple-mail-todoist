@@ -1,0 +1,25 @@
+{
+  "schema": "go-workflow.repo-local.architecture-principles.v1",
+  "kind": "architecture_principles",
+  "project": "apple-mail-todoist",
+  "principles": [
+    {
+      "id": "private-local-boundary",
+      "statement": "Keep credentials and live mail data outside Git.",
+      "rationale": "Public code must be safe to clone and inspect.",
+      "enforcement": "Use macOS Keychain for tokens and synthetic fixtures for tests."
+    },
+    {
+      "id": "idempotent-external-effects",
+      "statement": "Every Todoist mutation has a stable request identity and local reconciliation record.",
+      "rationale": "Network retries must not duplicate commitments.",
+      "enforcement": "Test success, timeout, replay, and ambiguous-response paths."
+    },
+    {
+      "id": "mail-read-only",
+      "statement": "The Todoist workflow only reads the current Mail selection.",
+      "rationale": "Task capture must never change source correspondence.",
+      "enforcement": "Reject Mail mutation permissions and test the adapter boundary."
+    }
+  ]
+}

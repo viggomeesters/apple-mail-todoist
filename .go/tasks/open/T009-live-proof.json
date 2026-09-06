@@ -1,0 +1,38 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T009-live-proof",
+  "project": "apple-mail-todoist",
+  "status": "open",
+  "summary": "Prove the complete local workflow with redacted disposable evidence",
+  "description": "Prerequisites: T008-raycast-ux. Run explicit bounded macOS integration checks using one synthetic/disposable Todoist task: selection, deep-link round trip, direct API creation, duplicate invocation, HUD feedback, unchanged Mail state, and cleanup.",
+  "scope": {
+    "read": [
+      "SECURITY.md",
+      "docs/vision.json",
+      "docs/architecture.md"
+    ],
+    "modify": [
+      "docs/live-verification.md",
+      "CHANGELOG.md"
+    ]
+  },
+  "acceptance": [
+    "Redacted evidence proves the Todoist description link opens the exact selected Mail message and Mail state remains unchanged.",
+    "A repeated invocation returns the existing task, the HUD messages match typed outcomes, and no credential or correspondence enters Git.",
+    "The live proof records macOS, Mail, Raycast, API, cleanup, and residual-risk facts without private identifiers."
+  ],
+  "verification": [
+    "make check"
+  ],
+  "claim": {
+    "agent": null,
+    "claimed_at": null
+  },
+  "work_status": "pending",
+  "review_status": "none",
+  "review_history": [],
+  "evidence": []
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "go-workflow.repo-local.vision.v1",
+  "kind": "vision",
+  "project": "apple-mail-todoist",
+  "status": "active",
+  "north_star": "Turn a selected Apple Mail message into a trustworthy Todoist action in one uninterrupted keystroke.",
+  "wedge": "A Raycast command that creates a Todoist Inbox task through the API, preserves a direct Apple Mail link, and confirms success with a lightweight HUD.",
+  "target_user": "macOS professionals who handle correspondence in Apple Mail and organize commitments in Todoist.",
+  "core_promise": "Select mail, invoke once, and receive exactly one traceable Todoist task without changing the email.",
+  "product_principles": [
+    "Mail remains untouched: task creation never archives, moves, flags, or deletes the source message.",
+    "Private by default: credentials stay in macOS Keychain and message bodies are excluded unless a future explicit feature requires them.",
+    "One action, one outcome: direct API creation is idempotent and visibly confirmed.",
+    "Failure is honest: uncertain delivery is reconciled before any retry can duplicate work."
+  ],
+  "non_goals": [
+    "Saving or enriching messages in JSONL Vault.",
+    "Managing, archiving, moving, or deleting Apple Mail messages.",
+    "AI-generated summaries, due dates, projects, or priorities in the initial product.",
+    "Providing a cross-platform email client integration."
+  ],
+  "success_metrics": [
+    "A selected message creates exactly one Todoist task with a working Mail link and success HUD in under three seconds on a healthy connection.",
+    "Repeated or uncertain submissions do not create duplicate Todoist tasks.",
+    "A repository secret scan and fixtures prove that tokens, message bodies, addresses, and live mail identifiers never enter Git."
+  ]
+}
