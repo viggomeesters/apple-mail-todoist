@@ -1,0 +1,79 @@
+{
+  "schema": "go-workflow.delivery.v1",
+  "delivery_id": "quality-v1",
+  "project": {
+    "id": "apple-mail-todoist",
+    "name": "Apple Mail to Todoist"
+  },
+  "assignment": {
+    "kind": "epic",
+    "id": "quality",
+    "title": "Trust, packaging, and operator experience"
+  },
+  "release": {
+    "version": 1,
+    "status": "released",
+    "created_at": "2026-09-06T20:51:11+02:00",
+    "supersedes": null
+  },
+  "disclosure": {
+    "class": "restricted",
+    "scan_status": "passed"
+  },
+  "sections": {
+    "summary": "Delivery voor Trust, packaging, and operator experience.",
+    "delivered_scope": [
+      "Add non-disclosing macOS Keychain credential access",
+      "Persist minimal duplicate-protection and reconciliation state",
+      "Release pending delivery after definitive pre-delivery failure",
+      "Ship the one-keystroke Raycast command and HUD feedback",
+      "Replace manual Todoist token flow with the official authenticated CLI",
+      "Prove the complete local workflow with redacted disposable evidence",
+      "Release and publish the verified local workflow"
+    ],
+    "excluded_scope": [
+      "Geen aanvullende uitgesloten scope vastgelegd."
+    ],
+    "evidence": [
+      {
+        "label": "Add non-disclosing macOS Keychain credential access",
+        "summary": "summary=Added interactive macOS Keychain setup and non-disclosing token retrieval; changed_files=src/apple_mail_todoist/keychain.py|tests/test_keychain.py; verification_command=uv run pytest -q tests/test_keychain.py && make check; verification_result=PASS: 5 focused tests and 31 repository tests passed; critic_outcome=PASS: setup delegates secret entry to security prompt and errors retain neither stdout nor stderr; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Persist minimal duplicate-protection and reconciliation state",
+        "summary": "summary=Added atomic user-only reconciliation state with pending uncertain confirmed transitions and concurrency locking; changed_files=src/apple_mail_todoist/reconciliation.py|tests/test_reconciliation.py; verification_command=uv run pytest -q tests/test_reconciliation.py && make check; verification_result=PASS: 6 focused tests and 47 repository tests passed; critic_outcome=PASS: state is minimal, chmod-restricted, corruption fails closed, and concurrent begin yields one logical winner; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Release pending delivery after definitive pre-delivery failure",
+        "summary": "summary=Added locked release of pending-only claims after definitive non-delivery; changed_files=src/apple_mail_todoist/reconciliation.py|tests/test_reconciliation.py; verification_command=uv run pytest -q tests/test_reconciliation.py && make check; verification_result=PASS: 9 focused tests and 50 repository tests passed; critic_outcome=PASS: uncertain and confirmed states remain protected while definitive pre-delivery failures can retry; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Ship the one-keystroke Raycast command and HUD feedback",
+        "summary": "summary=Added repository-owned silent Raycast Script Command with allowlisted HUD outcomes and installation docs; changed_files=scripts/raycast/create-todoist-task-from-mail.sh|tests/test_raycast_script.py|README.md|docs/onboarding.md; verification_command=uv run pytest -q tests/test_raycast_script.py && make check; verification_result=PASS: 4 focused tests and 63 repository tests passed; critic_outcome=PASS: script changes no app focus, forwards only bounded known outcomes, and never surfaces unexpected CLI output; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Replace manual Todoist token flow with the official authenticated CLI",
+        "summary": "summary=Replaced manual token and HTTP runtime with official td CLI browser OAuth, bounded JSON task creation, and detached Raycast notification flow; changed_files=src/apple_mail_todoist/todoist_cli.py|src/apple_mail_todoist/service.py|src/apple_mail_todoist/cli.py|src/apple_mail_todoist/domain.py|scripts/raycast/create-todoist-task-from-mail.sh|tests/test_todoist_cli.py|tests/test_service.py|tests/test_cli.py|README.md|docs/architecture.md|docs/onboarding.md|docs/vision.json; verification_command=make check && td auth status --json && live Raycast capture; verification_result=PASS 50 tests, repository validation, authenticated read-write secure-store, confirmed background delivery; critic_outcome=PASS no application token access, no due flag, bounded redacted subprocess failures, duplicate protection preserved; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Prove the complete local workflow with redacted disposable evidence",
+        "summary": "summary=Proved selected Mail to Todoist through Raycast and official CLI with exact fields, no due date, idempotent replay, exact deep link, unchanged Mail state, and full disposable cleanup; changed_files=src/apple_mail_todoist/todoist_cli.py|tests/test_todoist_cli.py|docs/live-verification.md|CHANGELOG.md; verification_command=make check plus bounded redacted macOS live proof; verification_result=PASS remote task fields exact, mail label present, due absent, replay existing, deep link exact, Mail snapshot unchanged, remote and local cleanup complete; critic_outcome=PASS no private identifier, correspondence, credential, response body, or live screenshot retained in Git; runtime=codex; billing_mode=subscription"
+      },
+      {
+        "label": "Release and publish the verified local workflow",
+        "summary": "summary=Versioned and documented v0.2.0, verified a fresh wheel install, reconciled all repo state, committed implementation, and pushed main; changed_files=README.md|SECURITY.md|CHANGELOG.md|docs/launch-readiness.md|docs/releases/v0.2.0.md|pyproject.toml|uv.lock; verification_command=make check && fresh isolated wheel install && git push origin main; verification_result=PASS 50 tests, repository validation, public-data boundary, apple-mail-todoist 0.2.0 fresh install, remote main cdc2e3b; critic_outcome=PASS release notes include dependency, rollout, rollback, first-hour checks, and redacted live provenance; runtime=codex; billing_mode=subscription"
+      }
+    ],
+    "limitations": [
+      "Alleen bewijs dat in .go is vastgelegd wordt in deze levering vertegenwoordigd."
+    ],
+    "next_steps": [
+      "Review deze levering met de opdrachtgever."
+    ]
+  },
+  "provenance": {
+    "source": ".go",
+    "source_sha256": "beacfd9211dd2ea508a0001abd98c6d629692542e6858f1494a556b21e8868c9",
+    "html_sha256": "458847024fef0920a8cb9423563402c60bc32d9b205c6e75f07898e28c895dfc"
+  }
+}
