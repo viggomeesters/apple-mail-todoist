@@ -14,7 +14,9 @@ The foundation release is complete. Product behavior is intentionally represente
 | 6 | `T006-reconciliation` | Persist minimal idempotency state and reconcile uncertain delivery | `T001-contracts`, `T005-todoist-api` |
 | 7 | `T007-capture-service` | Compose defaults and orchestrate one safe end-to-end capture through fake ports | `T003-mail-selection`, `T005-todoist-api`, `T006-reconciliation` |
 | 8 | `T008-raycast-ux` | Ship the Raycast command and non-blocking success/error HUD | `T007-capture-service` |
-| 9 | `T009-live-proof` | Verify the complete local workflow with disposable Todoist data and redacted evidence | `T008-raycast-ux` |
+| 9 | `T009a-todoist-cli` | Replace manual token handling with the official Todoist CLI and browser OAuth | `T008-raycast-ux` |
+| 10 | `T009-live-proof` | Verify the complete local workflow with disposable Todoist data and redacted evidence | `T009a-todoist-cli` |
+| 11 | `T010-release` | Version, validate, commit, push, and publish the proven workflow | `T009-live-proof` |
 
 ## Scope boundaries
 
@@ -30,4 +32,4 @@ Every task runs its focused tests and the full local gate:
 make check
 ```
 
-Live Mail, Keychain, link, or Todoist access is allowed only in `T009-live-proof` or a separately accepted task that names those side effects. Evidence committed to Git must remain synthetic or structurally redacted.
+Live Mail, Todoist CLI authentication, link, or Todoist access is allowed only in `T009-live-proof` or a separately accepted task that names those side effects. Evidence committed to Git must remain synthetic or structurally redacted.

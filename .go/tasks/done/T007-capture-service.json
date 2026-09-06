@@ -1,0 +1,93 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T007-capture-service",
+  "project": "apple-mail-todoist",
+  "status": "done",
+  "summary": "Orchestrate one deterministic mail-to-task capture",
+  "description": "Prerequisites: T003-mail-selection, T005-todoist-api, and T006-reconciliation. Compose the fixed Inbox task and coordinate Mail, Keychain, Todoist, reconciliation, and typed outcome ports without live dependencies in tests.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/",
+      "docs/vision.json"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/task_builder.py",
+      "src/apple_mail_todoist/service.py",
+      "src/apple_mail_todoist/cli.py",
+      "pyproject.toml",
+      "tests/test_task_builder.py",
+      "tests/test_service.py",
+      "tests/test_cli.py"
+    ]
+  },
+  "acceptance": [
+    "One selected mail produces a Reply to title, sender/date/deep-link description, mail label, no project override, and no inferred scheduling fields.",
+    "Confirmed, existing, safe failure, and reconciliation-needed outcomes are distinct and no failure path mutates Mail or duplicates Todoist work."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_task_builder.py tests/test_service.py tests/test_cli.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T19:27:35+02:00"
+  },
+  "work_status": "completed",
+  "review_status": "approved",
+  "review_history": [
+    {
+      "created_at": "2026-09-06T20:50:03+02:00",
+      "agent": "codex",
+      "status": "approved",
+      "evidence": "Independent hardening readback: acceptance evidence is present, make check is green, public-data boundary passes, and the final architecture safely supersedes earlier direct-token/API internals where applicable.",
+      "transaction_id": "a5768dc303e84a1ba46373e2b999baef"
+    }
+  ],
+  "evidence": [
+    {
+      "schema": "go-workflow.finish-evidence.v1",
+      "created_at": "2026-09-06T19:29:35+02:00",
+      "task_id": "T007-capture-service",
+      "agent": "codex",
+      "summary": "summary=Added deterministic task composition, idempotent capture orchestration, and console entry point; changed_files=src/apple_mail_todoist/task_builder.py|src/apple_mail_todoist/service.py|src/apple_mail_todoist/cli.py|pyproject.toml|tests/test_task_builder.py|tests/test_service.py|tests/test_cli.py; verification_command=uv run pytest -q tests/test_task_builder.py tests/test_service.py tests/test_cli.py && make check; verification_result=PASS: 9 focused tests and 59 repository tests passed; critic_outcome=PASS: fake-port tests distinguish created existing safe failure and uncertain delivery without live Mail Keychain or Todoist access; runtime=codex; billing_mode=subscription",
+      "changed_files": [
+        "src/apple_mail_todoist/task_builder.py",
+        "src/apple_mail_todoist/service.py",
+        "src/apple_mail_todoist/cli.py",
+        "pyproject.toml",
+        "tests/test_task_builder.py",
+        "tests/test_service.py",
+        "tests/test_cli.py"
+      ],
+      "no_diff": false,
+      "verification": {
+        "command": "uv run pytest -q tests/test_task_builder.py tests/test_service.py tests/test_cli.py && make check",
+        "result": "PASS: 9 focused tests and 59 repository tests passed"
+      },
+      "runtime": {
+        "agent": "codex",
+        "runtime": "codex",
+        "model": null,
+        "billing_mode": "subscription"
+      },
+      "usage": {
+        "schema": "go-workflow.usage-attribution.v1",
+        "runtime_kind": "codex",
+        "billing_mode": "subscription",
+        "owner": "codex",
+        "model": null,
+        "token_estimate": null,
+        "api_equivalent_cost_usd": null,
+        "provider_invoice_cost_usd": null,
+        "cost_label": "api_equivalent_not_invoice_cost"
+      },
+      "review": {
+        "outcome": "PASS: fake-port tests distinguish created existing safe failure and uncertain delivery without live Mail Keychain or Todoist access",
+        "skip_reason": null
+      }
+    }
+  ]
+}

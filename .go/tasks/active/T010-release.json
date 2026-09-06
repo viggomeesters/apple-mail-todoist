@@ -1,0 +1,50 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "required",
+  "id": "T010-release",
+  "project": "apple-mail-todoist",
+  "status": "active",
+  "summary": "Release and publish the verified local workflow",
+  "description": "After T009 live proof, reconcile repository state, version the implemented workflow, validate a fresh install, commit, push main, and publish the applicable GitHub release without GitHub Actions.",
+  "scope": {
+    "read": [
+      "README.md",
+      "SECURITY.md",
+      "CHANGELOG.md",
+      "docs/live-verification.md",
+      "docs/product-plan.md",
+      "docs/releases/v0.1.0.md",
+      "pyproject.toml"
+    ],
+    "modify": [
+      "README.md",
+      "SECURITY.md",
+      "CHANGELOG.md",
+      "docs/product-plan.md",
+      "docs/launch-readiness.md",
+      "docs/releases/v0.2.0.md",
+      "pyproject.toml",
+      "uv.lock"
+    ]
+  },
+  "acceptance": [
+    "Version and public documentation claim only behavior proven by T009; a fresh isolated install passes; main is committed and pushed; the release tag and GitHub release resolve to the pushed commit."
+  ],
+  "verification": [
+    "make check",
+    "fresh isolated install and CLI smoke test",
+    "git status --short",
+    "git ls-remote origin refs/heads/main refs/tags/v0.2.0",
+    "gh release view v0.2.0"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T20:48:38+02:00"
+  },
+  "work_status": "in_progress",
+  "review_status": "none",
+  "review_history": [],
+  "evidence": []
+}

@@ -15,7 +15,7 @@
     "one_line": "Create one traceable Todoist task from a selected Apple Mail message without leaving or changing Mail.",
     "north_star": "A person can select a message, invoke one command, receive a trustworthy Todoist task and quiet confirmation in under three seconds, then continue working in Mail.",
     "promise": "One keystroke creates exactly one actionable task with a working link back to the source message, while credentials and correspondence remain private.",
-    "wedge": "A Raycast command on macOS that reads one Mail selection, posts explicit fields to Todoist API v1, protects against duplicate delivery, and reports the outcome through a lightweight HUD.",
+    "wedge": "A Raycast command on macOS that reads one Mail selection, sends explicit fields through the official Todoist CLI, protects against duplicate delivery, and reports the outcome without blocking Raycast.",
     "target_users": [
       "People who process correspondence in Apple Mail and commitments in Todoist",
       "Privacy-conscious automation maintainers who need locally testable boundaries"
@@ -57,10 +57,10 @@
     {
       "id": "keychain-only",
       "category": "engineering",
-      "title": "Credentials live in Keychain",
-      "rule": "Todoist credentials are stored and retrieved through macOS Keychain and never cross argv, tracked configuration, logs, or reconciliation state.",
-      "good": ["A dedicated setup command writes a generic-password item without echoing it"],
-      "bad": ["A token in an environment example or dotfile inside the repository"]
+      "title": "Authentication belongs to Todoist",
+      "rule": "The official Todoist CLI owns browser OAuth and OS credential storage; this application never retrieves or accepts the credential.",
+      "good": ["td auth login authorizes once through the browser and secure OS store"],
+      "bad": ["A manually copied token in an application command, environment example, or repository file"]
     },
     {
       "id": "idempotent-effect",
@@ -82,7 +82,7 @@
       "id": "ports-first",
       "category": "engineering",
       "title": "Test side effects behind ports",
-      "rule": "Mail, Keychain, Todoist, local state, and HUD behavior remain replaceable boundaries around a pure orchestration core.",
+      "rule": "Mail, the Todoist CLI, local state, and feedback behavior remain replaceable boundaries around a pure orchestration core.",
       "good": ["The full default suite runs with fake adapters and no macOS app access"],
       "bad": ["Tests require a personal Mail mailbox or Todoist account"]
     },
@@ -123,13 +123,13 @@
     "Apple Mail continues to expose selection metadata and RFC Message-ID through macOS automation.",
     "The message URL resolves a locally indexed message after mailbox moves on the same Mac.",
     "Todoist preserves and activates a percent-encoded Apple Mail link in a task description on macOS.",
-    "Todoist API v1 continues to honor stable request identity for task creation.",
+    "The official Todoist CLI continues to support browser OAuth, structured task creation, and JSON output.",
     "A default Inbox task with a mail label is useful enough to keep the primary command dialog-free.",
     "Minimal local reconciliation state is acceptable when it excludes mail text and credentials."
   ],
   "public_safety": {
     "forbidden": [
-      "Todoist tokens, authorization headers, Keychain exports, or credential examples",
+      "Todoist tokens, authorization headers, macOS Keychain exports, or credential examples",
       "Real email addresses, subjects, message bodies, attachments, or RFC Message-IDs",
       "Exported EML, mailbox archives, private screenshots, logs, or API response captures",
       "Local reconciliation databases, generated runtime state, or application-support state",
@@ -137,7 +137,7 @@
     ],
     "required_boundaries": [
       "Use synthetic example.invalid identities in repository artifacts",
-      "Retrieve the Todoist token from macOS Keychain only at the HTTP boundary",
+      "Delegate OAuth and credential storage to the official Todoist CLI without retrieving its token",
       "Redact secrets and correspondence from exceptions, logs, HUD text, and evidence",
       "Reconcile uncertain delivery before replaying a Todoist mutation",
       "Keep live integration checks explicit, local, disposable, and untracked",
@@ -169,7 +169,7 @@
     {
       "id": "credential-safe",
       "question": "Can the workflow operate without exposing the Todoist token?",
-      "pass_condition": "Keychain tests and repository scans show no token in argv, files, logs, exceptions, or fixtures."
+      "pass_condition": "Todoist CLI adapter tests and repository scans show no token retrieval, token argument, tracked credential, log disclosure, or secret fixture."
     },
     {
       "id": "quiet-feedback",
@@ -190,7 +190,7 @@
   "review_checklist": [
     "Confirm Apple Mail access remains read-only and narrowly scoped to the current selection.",
     "Confirm the default path excludes mail bodies and attachments.",
-    "Confirm credentials remain in macOS Keychain and are redacted from every output path.",
+    "Confirm the official Todoist CLI owns credentials and this application redacts every output path.",
     "Confirm stable request identity survives timeout, crash, replay, and HUD failure.",
     "Confirm uncertain delivery reconciles before another Todoist POST.",
     "Confirm task defaults remain explicit and do not infer dates, projects, priorities, or summaries.",
@@ -213,12 +213,12 @@
     {
       "level": "L2",
       "state": "idempotent_core_verified",
-      "meaning": "Mail, Keychain, Todoist, and reconciliation adapters satisfy the full fake-port contract suite."
+      "meaning": "Mail, Todoist CLI, and reconciliation adapters satisfy the full fake-port contract suite."
     },
     {
       "level": "L3",
       "state": "one_keystroke_workflow_released",
-      "meaning": "The Raycast command completes the direct API flow with quiet HUD feedback and redacted live evidence."
+      "meaning": "The Raycast command completes the official CLI flow with immediate HUD feedback, final notification, and redacted live evidence."
     }
   ],
   "residual_risk_wording": "A green local suite cannot guarantee that macOS automation permissions, Apple Mail URL handling, Raycast behavior, or Todoist API behavior remain unchanged; each product release must include a bounded redacted live check."

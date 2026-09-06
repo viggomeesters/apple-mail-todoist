@@ -19,6 +19,16 @@ uv sync --frozen --group dev
 make check
 ```
 
+For a live local installation, install the CLI and configure its credential separately:
+
+```bash
+uv tool install --force --reinstall .
+npm install -g @doist/todoist-cli
+td auth login
+```
+
+The Todoist CLI opens a browser OAuth flow and stores its own credential in macOS Keychain. This project never reads the credential. Add `scripts/raycast` as a Raycast Script Commands directory; the committed command returns an immediate silent HUD and performs the bounded capture in the background.
+
 The `./go` launcher reads the immutable stack reference from `.go/project.json` and bootstraps that exact release into a local cache. Override it only with a checkout whose HEAD exactly matches the pinned tag.
 
 ## 3. Inspect workflow state
@@ -55,5 +65,5 @@ Before shipping, run `make check`, review staged files for private data, verify 
 
 - `src/apple_mail_todoist/` is the package boundary.
 - Platform adapters belong behind narrow protocols rather than in the CLI entry point.
-- `tests/` must remain runnable without Mail, Keychain, Raycast, or Todoist access.
+- `tests/` must remain runnable without Mail, Raycast, the installed `td` binary, or Todoist access.
 - `scripts/validate_repository.py` is the local release gate and may be extended when new canonical contracts are added.

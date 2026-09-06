@@ -7,8 +7,8 @@
 | Item | Status | Evidence |
 |---|---|---|
 | Repository | Public | `https://github.com/viggomeesters/apple-mail-todoist` |
-| Foundation release | `v0.1.0` | GitHub release and `CHANGELOG.md` |
-| Product runtime | Not shipped in `v0.1.0` | Open tasks in `.go/tasks/` |
+| Working-product release | `v0.2.0` | `CHANGELOG.md` and redacted live evidence |
+| Product runtime | Verified and shipped | `docs/live-verification.md` |
 | Local quality gate | Required | `make check` |
 | GitHub Actions | Intentionally unused | Local-gate policy in `AGENTS.md` |
 | Privacy posture | Public-safe source, synthetic tests | `SECURITY.md` and validation report |
@@ -27,4 +27,4 @@ The hero and 1280×640 social-preview crop were rendered and inspected at releas
 
 ## Publication proof
 
-The release gate requires schema-valid design and Go contracts, passing tests and lint, current-file and history privacy scans, no large unreviewed binaries, readback of public visibility/default branch/description/topics, a clean working tree, and a pushed release tag.
+The release gate requires schema-valid design and Go contracts, passing tests and lint, a fresh isolated install, current-file and history privacy scans, no large unreviewed binaries, readback of public visibility/default branch/description/topics, a clean working tree, and a pushed release tag.

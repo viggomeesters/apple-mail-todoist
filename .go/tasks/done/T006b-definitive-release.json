@@ -1,0 +1,83 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T006b-definitive-release",
+  "project": "apple-mail-todoist",
+  "status": "done",
+  "summary": "Release pending delivery after definitive pre-delivery failure",
+  "description": "Extend the reconciliation lifecycle with a locked abandon operation so credential and definitive API failures can be retried without weakening uncertain-delivery duplicate protection.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/reconciliation.py",
+      "tests/test_reconciliation.py",
+      "docs/architecture.md"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/reconciliation.py",
+      "tests/test_reconciliation.py"
+    ]
+  },
+  "acceptance": [
+    "Only a pending record can be abandoned; confirmed and uncertain records remain protected."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_reconciliation.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T19:26:43+02:00"
+  },
+  "work_status": "completed",
+  "review_status": "approved",
+  "review_history": [
+    {
+      "created_at": "2026-09-06T20:50:03+02:00",
+      "agent": "codex",
+      "status": "approved",
+      "evidence": "Independent hardening readback: acceptance evidence is present, make check is green, public-data boundary passes, and the final architecture safely supersedes earlier direct-token/API internals where applicable.",
+      "transaction_id": "7ac04c13c7844c8ab9d6c03919135b73"
+    }
+  ],
+  "evidence": [
+    {
+      "schema": "go-workflow.finish-evidence.v1",
+      "created_at": "2026-09-06T19:27:11+02:00",
+      "task_id": "T006b-definitive-release",
+      "agent": "codex",
+      "summary": "summary=Added locked release of pending-only claims after definitive non-delivery; changed_files=src/apple_mail_todoist/reconciliation.py|tests/test_reconciliation.py; verification_command=uv run pytest -q tests/test_reconciliation.py && make check; verification_result=PASS: 9 focused tests and 50 repository tests passed; critic_outcome=PASS: uncertain and confirmed states remain protected while definitive pre-delivery failures can retry; runtime=codex; billing_mode=subscription",
+      "changed_files": [
+        "src/apple_mail_todoist/reconciliation.py",
+        "tests/test_reconciliation.py"
+      ],
+      "no_diff": false,
+      "verification": {
+        "command": "uv run pytest -q tests/test_reconciliation.py && make check",
+        "result": "PASS: 9 focused tests and 50 repository tests passed"
+      },
+      "runtime": {
+        "agent": "codex",
+        "runtime": "codex",
+        "model": null,
+        "billing_mode": "subscription"
+      },
+      "usage": {
+        "schema": "go-workflow.usage-attribution.v1",
+        "runtime_kind": "codex",
+        "billing_mode": "subscription",
+        "owner": "codex",
+        "model": null,
+        "token_estimate": null,
+        "api_equivalent_cost_usd": null,
+        "provider_invoice_cost_usd": null,
+        "cost_label": "api_equivalent_not_invoice_cost"
+      },
+      "review": {
+        "outcome": "PASS: uncertain and confirmed states remain protected while definitive pre-delivery failures can retry",
+        "skip_reason": null
+      }
+    }
+  ]
+}

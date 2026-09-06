@@ -1,0 +1,87 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T008-raycast-ux",
+  "project": "apple-mail-todoist",
+  "status": "done",
+  "summary": "Ship the one-keystroke Raycast command and HUD feedback",
+  "description": "Prerequisites: T007-capture-service. Add a repository-owned Raycast script command that invokes the installed CLI, keeps focus in Mail, and renders concise non-blocking HUD outcomes.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/cli.py",
+      "docs/vision.json"
+    ],
+    "modify": [
+      "scripts/raycast/create-todoist-task-from-mail.sh",
+      "tests/test_raycast_script.py",
+      "README.md",
+      "docs/onboarding.md"
+    ]
+  },
+  "acceptance": [
+    "The success path shows Todoist task created without opening Todoist or changing the selected mail.",
+    "Existing-task, no-selection, missing-credential, definitive failure, and uncertain-delivery outcomes are concise, distinguishable, and tested without live apps."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_raycast_script.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T19:30:09+02:00"
+  },
+  "work_status": "completed",
+  "review_status": "approved",
+  "review_history": [
+    {
+      "created_at": "2026-09-06T20:50:03+02:00",
+      "agent": "codex",
+      "status": "approved",
+      "evidence": "Independent hardening readback: acceptance evidence is present, make check is green, public-data boundary passes, and the final architecture safely supersedes earlier direct-token/API internals where applicable.",
+      "transaction_id": "7fc769efb0734b89bc52e2b2aa619664"
+    }
+  ],
+  "evidence": [
+    {
+      "schema": "go-workflow.finish-evidence.v1",
+      "created_at": "2026-09-06T19:31:20+02:00",
+      "task_id": "T008-raycast-ux",
+      "agent": "codex",
+      "summary": "summary=Added repository-owned silent Raycast Script Command with allowlisted HUD outcomes and installation docs; changed_files=scripts/raycast/create-todoist-task-from-mail.sh|tests/test_raycast_script.py|README.md|docs/onboarding.md; verification_command=uv run pytest -q tests/test_raycast_script.py && make check; verification_result=PASS: 4 focused tests and 63 repository tests passed; critic_outcome=PASS: script changes no app focus, forwards only bounded known outcomes, and never surfaces unexpected CLI output; runtime=codex; billing_mode=subscription",
+      "changed_files": [
+        "scripts/raycast/create-todoist-task-from-mail.sh",
+        "tests/test_raycast_script.py",
+        "README.md",
+        "docs/onboarding.md"
+      ],
+      "no_diff": false,
+      "verification": {
+        "command": "uv run pytest -q tests/test_raycast_script.py && make check",
+        "result": "PASS: 4 focused tests and 63 repository tests passed"
+      },
+      "runtime": {
+        "agent": "codex",
+        "runtime": "codex",
+        "model": null,
+        "billing_mode": "subscription"
+      },
+      "usage": {
+        "schema": "go-workflow.usage-attribution.v1",
+        "runtime_kind": "codex",
+        "billing_mode": "subscription",
+        "owner": "codex",
+        "model": null,
+        "token_estimate": null,
+        "api_equivalent_cost_usd": null,
+        "provider_invoice_cost_usd": null,
+        "cost_label": "api_equivalent_not_invoice_cost"
+      },
+      "review": {
+        "outcome": "PASS: script changes no app focus, forwards only bounded known outcomes, and never surfaces unexpected CLI output",
+        "skip_reason": null
+      }
+    }
+  ]
+}

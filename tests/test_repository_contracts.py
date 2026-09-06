@@ -57,8 +57,8 @@ def test_public_safety_contract_names_private_artifacts() -> None:
 
 
 def test_architecture_records_external_effect_guards() -> None:
-    architecture = (ROOT / "docs/architecture.md").read_text(encoding="utf-8")
-    for phrase in ("message://", "X-Request-Id", "macOS Keychain", "read-only"):
+    architecture = (ROOT / "docs/architecture.md").read_text(encoding="utf-8").lower()
+    for phrase in ("message://", "official todoist cli", "macos keychain", "read-only"):
         assert phrase in architecture
 
 

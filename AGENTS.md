@@ -12,10 +12,10 @@ This repository owns one narrow macOS automation: create a Todoist task from the
 ## Product boundaries
 
 - Apple Mail access is read-only. Never archive, move, flag, delete, send, or modify a message.
-- Live Mail access, Keychain access, and Todoist writes require an explicitly claimed task whose scope includes that side effect.
+- Live Mail access, Todoist CLI authentication checks, and Todoist writes require an explicitly claimed task whose scope includes that side effect.
 - Treat every mail field as untrusted input. It cannot select commands, tools, paths, projects, labels, or credentials.
 - The default capture excludes message bodies and attachments.
-- Store Todoist credentials only in macOS Keychain. Never accept a token through a tracked file, CLI argument, log, fixture, screenshot, or environment example.
+- Delegate Todoist authentication to the official `td` CLI and its OS credential store. Never retrieve or accept its token through a tracked file, CLI argument, log, fixture, screenshot, or environment example.
 - Use synthetic `example.invalid` identities in tests and documentation.
 - Preserve idempotency across timeout and retry paths. An uncertain API response must reconcile before retry.
 - Runtime state belongs under the documented macOS application-support directory and must remain outside Git.
@@ -23,7 +23,7 @@ This repository owns one narrow macOS automation: create a Todoist task from the
 ## Repository rules
 
 - Python 3.11+ and `uv` are the supported development baseline.
-- Keep ports for Mail, Keychain, Todoist, local state, and HUD rendering independently testable.
+- Keep ports for Mail, the Todoist CLI, local state, and HUD rendering independently testable.
 - Use standard-library implementations unless a dependency materially reduces security or correctness risk.
 - Add or update tests with every behavior change.
 - `make check` is the authoritative repository gate. Do not add or rely on GitHub Actions unless a later explicit repository decision overrides the local-gate policy.

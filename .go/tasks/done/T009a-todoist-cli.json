@@ -1,0 +1,114 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T009a-todoist-cli",
+  "project": "apple-mail-todoist",
+  "status": "done",
+  "summary": "Replace manual Todoist token flow with the official authenticated CLI",
+  "description": "Install and integrate the official td CLI: browser OAuth in macOS Keychain, exact structured task creation, bounded subprocess execution, redacted failures, preserved reconciliation, and non-blocking Raycast notifications. Remove the custom API-token runtime path.",
+  "scope": {
+    "read": [
+      "pyproject.toml",
+      "README.md",
+      "src/apple_mail_todoist/service.py",
+      "src/apple_mail_todoist/domain.py"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/todoist_cli.py",
+      "src/apple_mail_todoist/service.py",
+      "src/apple_mail_todoist/cli.py",
+      "src/apple_mail_todoist/domain.py",
+      "scripts/raycast/create-todoist-task-from-mail.sh",
+      "tests/test_todoist_cli.py",
+      "tests/test_service.py",
+      "tests/test_cli.py",
+      "tests/test_repository_contracts.py",
+      "src/apple_mail_todoist/keychain.py",
+      "src/apple_mail_todoist/todoist.py",
+      "tests/test_keychain.py",
+      "tests/test_todoist.py",
+      "README.md",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "SECURITY.md",
+      "docs/architecture.md",
+      "docs/onboarding.md",
+      "docs/product-plan.md",
+      "docs/vision.json"
+    ]
+  },
+  "acceptance": [
+    "The production capture path invokes the official td CLI and never reads or accepts a manual API token.",
+    "td authentication uses browser OAuth and OS credential storage; subprocesses are bounded and all surfaced failures are redacted.",
+    "Task content, exact message link, mail label, no implicit due date, reconciliation, and non-blocking Raycast feedback remain covered by tests."
+  ],
+  "verification": [
+    "make check"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T20:39:15+02:00"
+  },
+  "work_status": "completed",
+  "review_status": "approved",
+  "review_history": [
+    {
+      "created_at": "2026-09-06T20:50:03+02:00",
+      "agent": "codex",
+      "status": "approved",
+      "evidence": "Independent hardening readback: acceptance evidence is present, make check is green, public-data boundary passes, and the final architecture safely supersedes earlier direct-token/API internals where applicable.",
+      "transaction_id": "2d7c9067c06943309aea2c100f7b3960"
+    }
+  ],
+  "evidence": [
+    {
+      "schema": "go-workflow.finish-evidence.v1",
+      "created_at": "2026-09-06T20:48:23+02:00",
+      "task_id": "T009a-todoist-cli",
+      "agent": "codex",
+      "summary": "summary=Replaced manual token and HTTP runtime with official td CLI browser OAuth, bounded JSON task creation, and detached Raycast notification flow; changed_files=src/apple_mail_todoist/todoist_cli.py|src/apple_mail_todoist/service.py|src/apple_mail_todoist/cli.py|src/apple_mail_todoist/domain.py|scripts/raycast/create-todoist-task-from-mail.sh|tests/test_todoist_cli.py|tests/test_service.py|tests/test_cli.py|README.md|docs/architecture.md|docs/onboarding.md|docs/vision.json; verification_command=make check && td auth status --json && live Raycast capture; verification_result=PASS 50 tests, repository validation, authenticated read-write secure-store, confirmed background delivery; critic_outcome=PASS no application token access, no due flag, bounded redacted subprocess failures, duplicate protection preserved; runtime=codex; billing_mode=subscription",
+      "changed_files": [
+        "src/apple_mail_todoist/todoist_cli.py",
+        "src/apple_mail_todoist/service.py",
+        "src/apple_mail_todoist/cli.py",
+        "src/apple_mail_todoist/domain.py",
+        "scripts/raycast/create-todoist-task-from-mail.sh",
+        "tests/test_todoist_cli.py",
+        "tests/test_service.py",
+        "tests/test_cli.py",
+        "README.md",
+        "docs/architecture.md",
+        "docs/onboarding.md",
+        "docs/vision.json"
+      ],
+      "no_diff": false,
+      "verification": {
+        "command": "make check && td auth status --json && live Raycast capture",
+        "result": "PASS 50 tests, repository validation, authenticated read-write secure-store, confirmed background delivery"
+      },
+      "runtime": {
+        "agent": "codex",
+        "runtime": "codex",
+        "model": null,
+        "billing_mode": "subscription"
+      },
+      "usage": {
+        "schema": "go-workflow.usage-attribution.v1",
+        "runtime_kind": "codex",
+        "billing_mode": "subscription",
+        "owner": "codex",
+        "model": null,
+        "token_estimate": null,
+        "api_equivalent_cost_usd": null,
+        "provider_invoice_cost_usd": null,
+        "cost_label": "api_equivalent_not_invoice_cost"
+      },
+      "review": {
+        "outcome": "PASS no application token access, no due flag, bounded redacted subprocess failures, duplicate protection preserved",
+        "skip_reason": null
+      }
+    }
+  ]
+}

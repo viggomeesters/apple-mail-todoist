@@ -10,7 +10,7 @@ Create one traceable Todoist task from the message selected in Apple Mail, confi
 
 ## Project status
 
-Version `0.1.0` is the public repository-foundation release. It establishes the product contract, architecture, safety boundaries, local validation, and dependency-ordered Go backlog. The executable mail-to-task command is not part of this release; implementation begins with the first open task in `.go/tasks/`.
+The main branch contains the verified executable workflow released as version `0.2.0`. It reads one selected Apple Mail message, creates an idempotent Todoist Inbox task through the official CLI, and returns immediate Raycast feedback followed by the final outcome notification.
 
 ## Product contract
 
@@ -18,8 +18,8 @@ The accepted interaction is deliberately small:
 
 1. Select one message in Apple Mail on macOS.
 2. Invoke **Create Todoist Task from Mail** in Raycast.
-3. Create exactly one task directly through the Todoist API.
-4. Show `Todoist task created` in a non-blocking Raycast HUD.
+3. Create exactly one task through the official Todoist CLI.
+4. Show an immediate Raycast HUD and a final macOS notification.
 5. Leave the selected email unchanged.
 
 The task defaults to Todoist Inbox, carries the `mail` label, has no inferred due date, and includes sender, received time, and a `message://` link back to the selected message. An optional command may expose project, date, priority, and title controls without slowing the default path.
@@ -29,7 +29,7 @@ The task defaults to Todoist Inbox, carries the `mail` label, has no inferred du
 Apple Mail and Todoist are excellent at different jobs, but turning correspondence into a commitment still creates friction. This project removes that friction while preserving three trust properties:
 
 - **Mail stays read-only.** Task creation never archives, moves, flags, or deletes a message.
-- **Private data stays local.** The Todoist token belongs in macOS Keychain; live mail and runtime state never belong in Git.
+- **Authentication is delegated.** The official Todoist CLI performs browser OAuth and keeps its credential in macOS Keychain; this project never reads the token.
 - **Retries stay safe.** Stable request identity and local reconciliation prevent uncertain network responses from producing duplicate tasks.
 
 ## Architecture at a glance
@@ -42,9 +42,9 @@ local Python CLI ──read-only──▶ Apple Mail selection (JXA)
     │                              │
     │                              └── RFC Message-ID → message:// link
     ▼
-task composer ◀────────────── macOS Keychain token
+task composer ──────────────▶ official Todoist CLI
     │
-    ├── idempotent request ──────▶ Todoist API
+    ├── bounded task command ────▶ Todoist
     ├── minimal reconciliation ──▶ local app state
     └── outcome ─────────────────▶ Raycast HUD
 ```
@@ -53,31 +53,34 @@ See [Architecture](docs/architecture.md) for trust boundaries, data flow, failur
 
 ## Installation
 
-The `0.1.0` release installs the development package and validation tooling. It does not install a live Raycast command.
-
 ```bash
 git clone https://github.com/viggomeesters/apple-mail-todoist.git
 cd apple-mail-todoist
-uv sync --frozen --group dev
+uv tool install --force --reinstall .
+npm install -g @doist/todoist-cli
+td auth login
 ```
+
+`td auth login` opens Todoist in the browser once and stores the OAuth credential in macOS Keychain. The application invokes `td` but never reads or copies that credential. Verify setup with `td auth status`.
+
+In Raycast, open **Settings → Extensions → Script Commands**, add this checkout's `scripts/raycast` directory, then optionally assign a hotkey to **Create Todoist Task from Mail**. The silent command returns immediately with `Creating Todoist task`; the bounded background capture reports its final result through macOS Notification Center.
 
 ## Usage
 
-Use the foundation release to inspect the accepted product contract and continue the ordered work:
+Select exactly one message in Apple Mail, then invoke **Create Todoist Task from Mail** in Raycast. You can exercise the same path in Terminal with:
 
 ```bash
-make check
-./go status . --json
-./go next .
+apple-mail-todoist capture
 ```
 
-The first claimable Go task defines the typed core using synthetic data. Live Apple Mail and Todoist access stay outside normal validation.
+Normal success prints `Todoist task created`. Repeating the command for the same message prints `Todoist task already exists` without a second API mutation. Selection, credential, definitive API, and uncertain-delivery failures use distinct bounded messages; an uncertain result deliberately blocks automatic replay until it has been reconciled.
 
 ## Development
 
 Requirements:
 
-- macOS for live Apple Mail and Keychain integration work
+- macOS for live Apple Mail and Todoist CLI credential-store integration work
+- Node.js 24+, npm 11+, and the official Todoist CLI
 - Python 3.11 or newer
 - [`uv`](https://docs.astral.sh/uv/)
 - Git
@@ -116,11 +119,11 @@ Agents must read [`AGENTS.md`](AGENTS.md), [the design contract](docs/vision.jso
 
 ## Privacy and security
 
-Never commit Todoist credentials, exported mail, message bodies, real addresses, live Message-IDs, reconciliation databases, logs, or Keychain exports. Tests use synthetic `example.invalid` identities. Report vulnerabilities through the private process in [`SECURITY.md`](SECURITY.md).
+Never commit Todoist credentials, exported mail, message bodies, real addresses, live Message-IDs, reconciliation databases, logs, or credential-store exports. Tests use synthetic `example.invalid` identities. Report vulnerabilities through the private process in [`SECURITY.md`](SECURITY.md).
 
 ## Releases
 
-Release history is recorded in [`CHANGELOG.md`](CHANGELOG.md). Version `0.1.0` publishes the professional foundation and validated implementation contract; later releases must not claim working product behavior without its corresponding verification evidence.
+Release history is recorded in [`CHANGELOG.md`](CHANGELOG.md). Version `0.2.0` is the first working-product release and is backed by the redacted evidence in [`docs/live-verification.md`](docs/live-verification.md).
 
 ## License
 

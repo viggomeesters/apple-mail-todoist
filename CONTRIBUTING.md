@@ -19,7 +19,7 @@ make check
 
 - Keep changes bounded to one product outcome.
 - Use synthetic messages and `example.invalid` addresses in tests.
-- Never include credentials, live correspondence, personal identifiers, exported mail, Keychain material, logs, or runtime databases.
+- Never include credentials, live correspondence, personal identifiers, exported mail, credential-store material, logs, or runtime databases.
 - Preserve the read-only Apple Mail boundary.
 - Add tests for success, failure, timeout, and replay behavior when external effects change.
 - Update machine-readable contracts and human documentation together when architecture or product behavior changes.
@@ -31,4 +31,4 @@ Use a concise imperative commit subject. In the pull request, explain the user-v
 
 ## Live integration checks
 
-Normal tests must not access Apple Mail, Keychain, or Todoist. A live check requires an explicitly scoped task, a test account or disposable task target, and a documented cleanup/reconciliation step. Never put live output in Git.
+Normal tests must not access Apple Mail, the installed `td` binary, or Todoist. A live check requires an explicitly scoped task, a disposable task target, and a documented cleanup/reconciliation step. Never put live output in Git.

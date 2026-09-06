@@ -30,7 +30,8 @@
           "title": "Protect credentials and private mail data",
           "tasks": [
             "T004-keychain",
-            "T006-reconciliation"
+            "T006-reconciliation",
+            "T006b-definitive-release"
           ]
         },
         {
@@ -38,7 +39,10 @@
           "title": "Package and document the Raycast workflow",
           "tasks": [
             "T008-raycast-ux",
-            "T009-live-proof"
+            "T009a-todoist-cli",
+            "T009-live-proof",
+            "T010-release",
+            "T009a-todoist-cli"
           ]
         }
       ],

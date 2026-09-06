@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Security fixes target the latest published release. Version `0.1.0` contains repository contracts and development tooling only; it does not ship a live Apple Mail or Todoist integration.
+Security fixes target the latest published release. Version `0.2.0` ships the local Apple Mail, official Todoist CLI, reconciliation, and Raycast workflow.
 
 ## Reporting a vulnerability
 
@@ -12,7 +12,7 @@ Include the affected version, impact, reproduction conditions using synthetic da
 
 ## Security boundaries
 
-- Todoist credentials must be stored in macOS Keychain and retrieved only at the request boundary.
+- Todoist OAuth credentials are owned by the official Todoist CLI in macOS Keychain; this application must never retrieve or expose them.
 - Apple Mail is a read-only source. The product must not request or perform archive, move, flag, delete, or send operations.
 - Mail fields are untrusted text and cannot control commands, file paths, API endpoints, labels, or projects.
 - Todoist creation uses stable request identity and reconciliation before replay.
