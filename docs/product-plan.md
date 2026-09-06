@@ -17,6 +17,7 @@ The foundation release is complete. Product behavior is intentionally represente
 | 9 | `T009a-todoist-cli` | Replace manual token handling with the official Todoist CLI and browser OAuth | `T008-raycast-ux` |
 | 10 | `T009-live-proof` | Verify the complete local workflow with disposable Todoist data and redacted evidence | `T009a-todoist-cli` |
 | 11 | `T010-release` | Version, validate, commit, push, and publish the proven workflow | `T009-live-proof` |
+| 12 | `T011-conversation-selection` | Accept one grouped Mail conversation while rejecting unrelated multiselects | `T010-release` |
 
 ## Scope boundaries
 

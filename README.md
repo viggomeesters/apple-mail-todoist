@@ -16,7 +16,7 @@ The main branch contains the verified executable workflow released as version `0
 
 The accepted interaction is deliberately small:
 
-1. Select one message in Apple Mail on macOS.
+1. Select one message or one grouped conversation in Apple Mail on macOS.
 2. Invoke **Create Todoist Task from Mail** in Raycast.
 3. Create exactly one task through the official Todoist CLI.
 4. Show an immediate Raycast HUD and a final macOS notification.
@@ -67,7 +67,7 @@ In Raycast, open **Settings → Extensions → Script Commands**, add this check
 
 ## Usage
 
-Select exactly one message in Apple Mail, then invoke **Create Todoist Task from Mail** in Raycast. You can exercise the same path in Terminal with:
+Select one message or one grouped conversation in Apple Mail, then invoke **Create Todoist Task from Mail** in Raycast. For a conversation, the newest message supplies the sender, date, and deep link while reply prefixes are removed from the task title. A true multiselect containing unrelated subjects remains rejected. You can exercise the same path in Terminal with:
 
 ```bash
 apple-mail-todoist capture

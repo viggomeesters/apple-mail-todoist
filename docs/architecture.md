@@ -23,7 +23,7 @@ flowchart LR
 |---|---|---|---|
 | Raycast script | Installed application command | Immediate HUD only | Starts a detached, bounded capture and never receives credentials or mail body |
 | CLI orchestrator | One selected-mail snapshot | Adapter calls | Coordinates; contains no platform-specific query code |
-| Apple Mail adapter | Current selection through JXA | Nothing | No archive, move, flag, delete, send, or mailbox mutation verbs |
+| Apple Mail adapter | Current selection through JXA | Nothing | One message, or the newest message from one coherent subject thread; no Mail mutation verbs |
 | Task composer | Validated metadata | In-memory task request | Deterministic defaults; no inferred date, project, priority, or summary |
 | Official Todoist CLI | Its own OAuth credential in macOS Keychain | Todoist task | Browser login and credential lifecycle stay outside this application |
 | Todoist CLI adapter | Explicit task fields | One bounded `td task add --json` process | No token access; no natural-language due-date parsing; typed redacted responses |
@@ -73,7 +73,8 @@ The local store lives under `~/Library/Application Support/apple-mail-todoist/` 
 ## Failure model
 
 - **No selection:** fail before Todoist CLI access; show a concise selection hint.
-- **Multiple selections:** fail closed in the default command; a separately designed bulk workflow may handle batches.
+- **Conversation selection:** when Mail expands one selected thread into same-subject messages, choose the newest and remove repeated reply/forward prefixes from its title.
+- **Unrelated multiple selections:** fail closed; a separately designed bulk workflow may handle batches.
 - **Missing RFC Message-ID:** fail without synthesizing an unstable deep link.
 - **Missing CLI or OAuth session:** show `td auth login` guidance without accessing secret material.
 - **CLI rejection:** preserve safe redacted output; ambiguous creation failures remain uncertain.

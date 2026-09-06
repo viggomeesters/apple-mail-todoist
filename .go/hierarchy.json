@@ -15,7 +15,8 @@
             "T002-mail-link",
             "T003-mail-selection",
             "T005-todoist-api",
-            "T007-capture-service"
+            "T007-capture-service",
+            "T011-conversation-selection"
           ]
         }
       ],

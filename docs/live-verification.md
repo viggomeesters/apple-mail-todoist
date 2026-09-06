@@ -31,3 +31,9 @@ The first confirmed CLI capture completed in 1.37 seconds. The Raycast wrapper i
 ## Residual risk
 
 macOS Automation permissions, Notification Center policy, Apple Mail URL handling, Raycast process behavior, and Todoist CLI output may change after release. Ambiguous CLI delivery remains fail-closed: local state becomes `uncertain` and automatic replay is blocked until reconciled.
+
+## Conversation-selection regression
+
+On 6 September 2026, a real grouped Mail conversation that the scripting API expanded to three underlying messages reproduced the former `multiple_selection` failure. After the fix, the same Raycast command selected the newest same-subject message, removed its reply prefix for the task title, created one confirmed Todoist task, and returned the existing task on replay. Remote fields matched the deterministic draft, no due date was added, and a before/after Mail-state digest remained equal. No correspondence or identifiers were retained.
+
+Mail exposes no conversation identifier through its scripting dictionary, so grouping uses a conservative normalized-subject check. A manual multiselect of distinct messages with the same normalized subject can therefore be interpreted as one conversation; different subjects continue to fail closed.

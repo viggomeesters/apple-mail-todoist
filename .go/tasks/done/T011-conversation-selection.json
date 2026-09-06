@@ -1,0 +1,95 @@
+{
+  "schema": "go-workflow.repo-local.task.v1",
+  "kind": "task",
+  "execution_mode": "agent",
+  "shareable_delivery": "none",
+  "id": "T011-conversation-selection",
+  "project": "apple-mail-todoist",
+  "status": "done",
+  "summary": "Capture one selected Apple Mail conversation",
+  "description": "When Apple Mail expands one selected conversation row into multiple underlying messages, recognize a coherent same-subject conversation and deterministically use its newest message. Continue rejecting true multi-selection with unrelated subjects.",
+  "scope": {
+    "read": [
+      "src/apple_mail_todoist/apple_mail.py",
+      "tests/test_apple_mail.py",
+      "docs/architecture.md"
+    ],
+    "modify": [
+      "src/apple_mail_todoist/apple_mail.py",
+      "tests/test_apple_mail.py",
+      "README.md",
+      "docs/architecture.md",
+      "docs/live-verification.md",
+      "docs/product-plan.md",
+      "CHANGELOG.md"
+    ]
+  },
+  "acceptance": [
+    "A selected conversation containing reply-prefixed variants of one subject yields the newest message as SelectedMail.",
+    "Multiple selected messages with different canonical subjects still fail with MULTIPLE_SELECTION.",
+    "The reported conversation reproduces successfully without exposing message content or changing Mail state."
+  ],
+  "verification": [
+    "uv run pytest -q tests/test_apple_mail.py",
+    "make check"
+  ],
+  "claim": {
+    "agent": "codex",
+    "claimed_at": "2026-09-06T20:56:48+02:00"
+  },
+  "work_status": "completed",
+  "review_status": "approved",
+  "review_history": [
+    {
+      "created_at": "2026-09-06T21:01:46+02:00",
+      "agent": "codex",
+      "status": "approved",
+      "evidence": "Debug and hardening readback passed: reproduction was three underlying messages, RED failed with MULTIPLE_SELECTION, GREEN selected newest coherent subject, unrelated multiselect guard and live reported case both pass.",
+      "transaction_id": "f95bd91171b846adbb9bc17d8078bf4b"
+    }
+  ],
+  "evidence": [
+    {
+      "schema": "go-workflow.finish-evidence.v1",
+      "created_at": "2026-09-06T21:01:46+02:00",
+      "task_id": "T011-conversation-selection",
+      "agent": "codex",
+      "summary": "summary=Recognized one Mail conversation by normalized subject, selected newest message, removed reply prefixes from task title, and preserved rejection for unrelated multiselects; changed_files=src/apple_mail_todoist/apple_mail.py|tests/test_apple_mail.py|README.md|docs/architecture.md|docs/live-verification.md|docs/product-plan.md|CHANGELOG.md; verification_command=uv run pytest -q tests/test_apple_mail.py && make check && live Raycast capture on reported conversation; verification_result=PASS 10 focused tests, 52 total tests, exact conversation fingerprint confirmed remotely, idempotent replay, Mail digest unchanged; critic_outcome=PASS conservative subject heuristic documented with residual false-positive risk and no correspondence retained; runtime=codex; billing_mode=subscription",
+      "changed_files": [
+        "src/apple_mail_todoist/apple_mail.py",
+        "tests/test_apple_mail.py",
+        "README.md",
+        "docs/architecture.md",
+        "docs/live-verification.md",
+        "docs/product-plan.md",
+        "CHANGELOG.md"
+      ],
+      "no_diff": false,
+      "verification": {
+        "command": "uv run pytest -q tests/test_apple_mail.py && make check && live Raycast capture on reported conversation",
+        "result": "PASS 10 focused tests, 52 total tests, exact conversation fingerprint confirmed remotely, idempotent replay, Mail digest unchanged"
+      },
+      "runtime": {
+        "agent": "codex",
+        "runtime": "codex",
+        "model": null,
+        "billing_mode": "subscription"
+      },
+      "usage": {
+        "schema": "go-workflow.usage-attribution.v1",
+        "runtime_kind": "codex",
+        "billing_mode": "subscription",
+        "owner": "codex",
+        "model": null,
+        "token_estimate": null,
+        "api_equivalent_cost_usd": null,
+        "provider_invoice_cost_usd": null,
+        "cost_label": "api_equivalent_not_invoice_cost"
+      },
+      "review": {
+        "outcome": "PASS conservative subject heuristic documented with residual false-positive risk and no correspondence retained",
+        "skip_reason": null
+      }
+    }
+  ]
+}

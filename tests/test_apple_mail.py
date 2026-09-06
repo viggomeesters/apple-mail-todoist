@@ -43,6 +43,59 @@ def test_reader_returns_one_minimal_selected_mail_from_constant_read_only_jxa() 
     assert calls == [(SELECTION_JXA, 2.5)]
 
 
+def test_reader_uses_newest_message_from_one_selected_conversation() -> None:
+    older = {
+        "apple_mail_id": "synthetic-older",
+        "rfc_message_id": "older@example.invalid",
+        "subject": "Synthetic project question",
+        "sender_display": "First Example Sender",
+        "received_at": "2026-09-05T10:00:00Z",
+    }
+    newest = {
+        "apple_mail_id": "synthetic-newest",
+        "rfc_message_id": "newest@example.invalid",
+        "subject": "RE: Synthetic project question",
+        "sender_display": "Latest Example Sender",
+        "received_at": "2026-09-06T10:00:00Z",
+    }
+    middle = {
+        "apple_mail_id": "synthetic-middle",
+        "rfc_message_id": "middle@example.invalid",
+        "subject": "Re: Re: Synthetic project question",
+        "sender_display": "Middle Example Sender",
+        "received_at": "2026-09-05T14:00:00Z",
+    }
+
+    reader = AppleMailReader(
+        execute_jxa=lambda _script, _timeout: json.dumps([older, newest, middle])
+    )
+
+    selected = reader.selected_mail()
+
+    assert selected.apple_mail_id == "synthetic-newest"
+    assert selected.rfc_message_id == "newest@example.invalid"
+    assert selected.subject == "Synthetic project question"
+
+
+def test_reader_still_rejects_multiple_unrelated_messages() -> None:
+    rows = [
+        {
+            "apple_mail_id": f"synthetic-{number}",
+            "rfc_message_id": f"synthetic-{number}@example.invalid",
+            "subject": subject,
+            "sender_display": "Example Sender",
+            "received_at": f"2026-09-0{number}T10:00:00Z",
+        }
+        for number, subject in ((5, "First subject"), (6, "Second subject"))
+    ]
+    reader = AppleMailReader(execute_jxa=lambda _script, _timeout: json.dumps(rows))
+
+    with pytest.raises(MailSelectionError) as caught:
+        reader.selected_mail()
+
+    assert caught.value.error.code is ErrorCode.MULTIPLE_SELECTION
+
+
 def test_selection_program_has_no_mail_mutation_surface() -> None:
     lowered = SELECTION_JXA.lower()
     for mutation in (r"\bdelete\b", r"\barchive\b", r"\.move\(", r"\.send\(", r"flagged\s*="):
